@@ -178,7 +178,7 @@ nav {
     width: 100%;
     min-height: 200px;
     background-color: var(--dark-violet);
-    background-image: url(/images/bg-boost-desktop.svg);
+    background-image: url(../images/bg-boost-desktop.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -194,13 +194,23 @@ nav {
     align-items: center;
 }
 
-#process-link-form span {
+#process-link-form span.error-msg {
     position: absolute;
     bottom: 110px;
     color: var(--red);
     font-style: italic;
     display: none;
 }
+
+#process-link-form span.invalid-url-msg {
+    color: blue;
+    position: absolute;
+    bottom: 110px;
+    color: var(--red);
+    font-style: italic;
+    display: none;
+}
+
 
 #process-link-form input[type="text"] {
     flex-grow: 5;
@@ -363,7 +373,7 @@ footer {
     width: 100%;
     min-height: 200px;
     background-color: var(--dark-violet);
-    background-image: url(/images/bg-boost-desktop.svg);
+    background-image: url(../images/bg-boost-desktop.svg);
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
