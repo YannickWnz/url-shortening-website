@@ -10,6 +10,44 @@ const emptyInputErrorMessage = document.querySelector('#process-link-form span.e
 // get invalid url message span
 const invalidUrlErrorMessage = document.querySelector('#process-link-form span.invalid-url-msg');
 
+// get original url p tag
+const originalUrl = document.querySelector('.original-link p').innerHTML;
+
+// get processed url p tag
+// const shortUrl = document.querySelector('.short-link p').innerHTML;
+
+// let shortUrl
+const shortUrl = document.querySelector('.short-link p').innerHTML;
+
+
+// copy url button
+const button = document.querySelector('.copy-link-btn button');
+
+const copiedBtn = document.querySelector('.copy-link-btn button.copied');
+
+// copy url to clipboard function
+const copyUrlToClipboard = async () => {
+    try {
+    //   await navigator.clipboard.writeText('trying to copy');
+    await navigator.clipboard.writeText('shortUrl');
+    // setTimeout(() => {
+    //     changeCopyButtonText();
+    // }, 1000);
+    console.log('Content copied to clipboard');
+    } catch (err) {
+    console.error('Failed to copy: ', err);
+    }
+};
+
+//   run copy url to clipboard function on button click
+button.addEventListener('click', copyUrlToClipboard)
+
+const changeCopyButtonText = () => {
+    button.style.display = 'none';
+    copiedBtn.style.display = 'block';
+}
+
+// console.log(shortUrl.innerHTML)
 
 // function handling form
 const handleForm = e => {
@@ -28,6 +66,7 @@ const handleForm = e => {
         return false;
     }
 
+    // sendLinkToServer(link)
     removeInvalidFormatErrorMessage();
     form.reset();
 }
@@ -73,3 +112,26 @@ function isUrlValid(url) {
 }
 
 // isValid('https://www.figma.com/')
+
+// send link to server
+const sendLinkToServer = (url) => {
+
+    let http = new XMLHttpRequest();
+
+    http.open('GET', './include/apiRequest.inc.php?url='+url, true);
+
+    http.onload = function() {
+        if(this.status == 200 && this.readyState == 4) {
+            // console.log(http.responseText);
+            // console.log('diff')
+            let results = JSON.parse(http.responseText);
+            // let results = http.responseText;
+            console.log(results.result.short_link);
+            // console.log(JSON.parse(results));
+        }
+    }
+
+    // http.send();
+
+
+}
