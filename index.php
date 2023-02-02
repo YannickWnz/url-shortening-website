@@ -63,17 +63,19 @@
           </form>
         </div>
         <div class="processed-links-results-wrapper">
-          <!-- <div class="processed-link">
+          <div class="processed-link">
             <div class="original-link">
               <p>https://www.yannickwnz.me</p>
             </div>
             <div class="short-link">
               <p>shrtco.de/KCveN</p>
               <div class="copy-link-btn">
-                <a href="">Copy</a>
+                <!-- <a href="">Copy</a> -->
+                <button>Copy</button>
+                <button class="copied">Copied</button>
               </div>
             </div>
-          </div> -->
+          </div>
         </div>
       </div>
       <div class="statistics-section">
