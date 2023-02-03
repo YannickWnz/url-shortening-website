@@ -39,8 +39,6 @@
         <h1>More than just shorter links</h1>
         <p>Build your brand's recognition and get detailed insights on how your links are performing</p>
         <a href="">Get started</a>
-        <!-- <div class="get-started-btn">
-        </div> -->
       </div>
       <div class="hero-section-img-container">
         <img src="./images/illustration-working.svg" alt="">
