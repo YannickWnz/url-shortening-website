@@ -56,7 +56,6 @@
         <div class="link-input-wrapper">
           <form id="process-link-form" action="">
               <input type="text" placeholder="Shorten a link here...">
-              <!-- <input type="text" placeholder="Link format: https://www.nameofyoursite.com/ "> -->
             <input type="submit" value="Shorten it!">
             <span class="error-msg">Please add a link</span>
             <span class="invalid-url-msg">URL format should be: https://www.nameofyoursite.com/</span>
@@ -65,12 +64,11 @@
         <div class="processed-links-results-wrapper">
           <div class="processed-link">
             <div class="original-link">
-              <p>https://www.yannickwnz.me</p>
+              <p></p>
             </div>
             <div class="short-link">
-              <p>shrtco.de/KCveN</p>
+              <p></p>
               <div class="copy-link-btn">
-                <!-- <a href="">Copy</a> -->
                 <button>Copy</button>
                 <button class="copied">Copied</button>
               </div>
