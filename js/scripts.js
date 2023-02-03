@@ -10,15 +10,14 @@ const emptyInputErrorMessage = document.querySelector('#process-link-form span.e
 // get invalid url message span
 const invalidUrlErrorMessage = document.querySelector('#process-link-form span.invalid-url-msg');
 
-// get original url p tag
-const originalUrl = document.querySelector('.original-link p').innerHTML;
+// processed link container
+const processedLinkContainer = document.querySelector('.processed-link');
 
-// get processed url p tag
-// const shortUrl = document.querySelector('.short-link p').innerHTML;
+// get original url p tag
+let originalUrl = document.querySelector('.original-link p');
 
 // let shortUrl
-const shortUrl = document.querySelector('.short-link p').innerHTML;
-
+let shortUrl = document.querySelector('.short-link p');
 
 // copy url button
 const button = document.querySelector('.copy-link-btn button');
@@ -28,49 +27,66 @@ const copiedBtn = document.querySelector('.copy-link-btn button.copied');
 // copy url to clipboard function
 const copyUrlToClipboard = async () => {
     try {
-    //   await navigator.clipboard.writeText('trying to copy');
-    await navigator.clipboard.writeText('shortUrl');
-    // setTimeout(() => {
-    //     changeCopyButtonText();
-    // }, 1000);
-    console.log('Content copied to clipboard');
+    await navigator.clipboard.writeText(shortUrl.innerHTML);
+    
+    // display "copied" button when copy is successful
+    displayCopyButtonText();
+
+    // remove "copied" button function after 1s
+    setTimeout(() => {
+        removeCopyButtonText();
+    }, 1000);
+    
     } catch (err) {
-    console.error('Failed to copy: ', err);
+        console.error('Failed to copy: ', err);
     }
 };
 
 //   run copy url to clipboard function on button click
 button.addEventListener('click', copyUrlToClipboard)
 
-const changeCopyButtonText = () => {
+
+// function displaying "copied" button after user clicks on copy button 
+const displayCopyButtonText = () => {
     button.style.display = 'none';
     copiedBtn.style.display = 'block';
 }
 
-// console.log(shortUrl.innerHTML)
+// remove "copied" button function
+const removeCopyButtonText = () => {
+    button.style.display = 'block';
+    copiedBtn.style.display = 'none';
+}
 
 // function handling form
 const handleForm = e => {
-    let link = inputText.value;
-
     e.preventDefault();
 
+    let link = inputText.value;
+
+    // run handleError function when input empty
     if(link.length == 0) {
         handleError();
         return false;
     }
 
+    // run invalid url format error function when url not valid
     if(!isUrlValid(link)) {
         console.log('invalid url');
         handleInvalidUrlFormat();
         return false;
     }
 
-    // sendLinkToServer(link)
+    // pass link to function that handle sending data to the server
+    sendLinkToServer(link)
+
+    // removing error message when form is submitted with no error
     removeInvalidFormatErrorMessage();
-    form.reset();
+
+    // form.reset();
 }
 
+// run handleform function on form submit
 form.addEventListener('submit', handleForm)
 
 // function handling 
@@ -80,6 +96,7 @@ const handleError = () => {
     form.classList.add('error');
 }
 
+// remove error function
 const removeError = () => {
     emptyInputErrorMessage.style.display = 'none';
     form.classList.remove('error');
@@ -97,9 +114,10 @@ const removeInvalidFormatErrorMessage = () => {
     invalidUrlErrorMessage.style.display = 'none';
 }
 
+// run remove error function on keyup event
 inputText.addEventListener('keyup', removeError)
 
-// validing user url 
+// validating user url 
 function isUrlValid(url) {
     try {
         new URL (url)
@@ -111,9 +129,7 @@ function isUrlValid(url) {
     }
 }
 
-// isValid('https://www.figma.com/')
-
-// send link to server
+// send url to server
 const sendLinkToServer = (url) => {
 
     let http = new XMLHttpRequest();
@@ -122,16 +138,25 @@ const sendLinkToServer = (url) => {
 
     http.onload = function() {
         if(this.status == 200 && this.readyState == 4) {
-            // console.log(http.responseText);
-            // console.log('diff')
+            if(http.responseText == 'err') {
+                alert('An error occurred')
+                return;
+            }
             let results = JSON.parse(http.responseText);
-            // let results = http.responseText;
-            console.log(results.result.short_link);
-            // console.log(JSON.parse(results));
+            let shortLinkResult = results.result.full_short_link;
+            let originalLinkResult = results.result.original_link;
+            displayApiResponseInBrowser(originalLinkResult, shortLinkResult)
         }
     }
-
-    // http.send();
-
-
+    http.send();
 }
+
+// display fetched results
+const displayApiResponseInBrowser = (original_Url, short_Url) => {
+
+    processedLinkContainer.style.display = 'flex';
+
+    originalUrl.innerHTML = original_Url;
+    shortUrl.innerHTML = short_Url;
+}
+
